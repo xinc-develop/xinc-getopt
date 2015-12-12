@@ -1,6 +1,7 @@
 <?php
 
-namespace Ulrichsg\Getopt;
+use Xinc\Getopt\Getopt;
+use Xinc\Getopt\Option;
 
 class GetoptTest extends \PHPUnit_Framework_TestCase
 {

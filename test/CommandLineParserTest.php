@@ -1,6 +1,9 @@
 <?php
 
-namespace Ulrichsg\Getopt;
+use Xinc\Getopt\Argument;
+use Xinc\Getopt\CommandLineParser;
+use Xinc\Getopt\Getopt;
+use Xinc\Getopt\Option;
 
 class CommandLineParserTest extends \PHPUnit_Framework_TestCase
 {

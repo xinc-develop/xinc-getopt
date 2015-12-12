@@ -1,7 +1,11 @@
-Getopt.PHP
-==========
+Xinc.Getopt
+===========
 
-Getopt.PHP is a library for command-line argument processing. It supports PHP version 5.3 and above.
+This is a friendly for of Ulrichsg/Getopt.PHP. It is a fine library,
+but the usage is not flexible enough to suit xincs requirements.
+
+Getopt.PHP is a library for command-line argument processing. It supports 
+PHP version 5.3 and above.
 
 Features
 --------
@@ -17,12 +21,10 @@ Features
 Documentation
 -------------
 
-* [Documentation for the current version (2.0+)](http://ulrichsg.github.io/getopt-php/)
-* [Legacy documentation (1.4)](https://github.com/ulrichsg/getopt-php/blob/2aa8ab1be57200af4cc51447d2a6c244b75ca70b/README.markdown)
+* [Documentation for the original version (2.0+)](http://ulrichsg.github.io/getopt-php/)
 
 License
 -------
 
-Getopt.PHP is published under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+Xinc.Getopt is published under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
-[![Build Status](https://travis-ci.org/ulrichsg/getopt-php.png)](https://travis-ci.org/ulrichsg/getopt-php)

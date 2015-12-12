@@ -1,6 +1,10 @@
 bin
 build
+composer
 composer.lock
 vendor
 nbproject
 _site
+*~
+.#*
+*#*#

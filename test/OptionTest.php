@@ -1,6 +1,8 @@
 <?php
 
-namespace Ulrichsg\Getopt;
+use Xinc\Getopt\Argument;
+use Xinc\Getopt\Getopt;
+use Xinc\Getopt\Option;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +48,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     {
         $option = new Option('a', null, Getopt::OPTIONAL_ARGUMENT);
         $this->assertEquals($option, $option->setArgument(new Argument()));
-        $this->assertInstanceof('Ulrichsg\Getopt\Argument', $option->getArgument());
+        $this->assertInstanceof('Xinc\Getopt\Argument', $option->getArgument());
     }
 
     public function testSetArgumentWrongMode()
