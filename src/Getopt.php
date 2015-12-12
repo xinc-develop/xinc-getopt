@@ -1,28 +1,28 @@
 <?php
-  /**
-   * @version   3.0.0
-   * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
-   * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
-   * @license Permission is hereby granted, free of charge, to any person 
-   *          obtaining a copy of this software and associated documentation 
-   *          files (the "Software"), to deal in the Software without restriction,
-   *          including without limitation the rights to use, copy, modify, merge, 
-   *          publish, distribute, sublicense, and/or sell copies of the Software, 
-   *          and to permit persons to whom the Software is furnished to do so,
-   *          subject to the following conditions:
-   *          \\
-   *          The above copyright notice and this permission notice shall be included 
-   *          in all copies or substantial portions of the Software.
-   *          \\
-   *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
-   *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-   *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-   *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-   *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-   *          SOFTWARE.
-   */
-
+/**
+ * @version   3.0.0
+ *
+ * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
+ * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
+ * @license Permission is hereby granted, free of charge, to any person 
+ *          obtaining a copy of this software and associated documentation 
+ *          files (the "Software"), to deal in the Software without restriction,
+ *          including without limitation the rights to use, copy, modify, merge, 
+ *          publish, distribute, sublicense, and/or sell copies of the Software, 
+ *          and to permit persons to whom the Software is furnished to do so,
+ *          subject to the following conditions:
+ *          \\
+ *          The above copyright notice and this permission notice shall be included 
+ *          in all copies or substantial portions of the Software.
+ *          \\
+ *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ *          SOFTWARE.
+ */
 namespace Xinc\Getopt;
 
 /**
@@ -46,7 +46,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
     /** @var array */
     private $operands = array();
     /** @var string */
-    private $banner =  "Usage: %s [options] [operands]\n";
+    private $banner = "Usage: %s [options] [operands]\n";
 
     /**
      * Creates a new Getopt object.
@@ -54,13 +54,14 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
      * The argument $options can be either a string in the format accepted by the PHP library
      * function getopt() or an array.
      *
-     * @param mixed $options Array of options, a String, or null (see documentation for details)
-     * @param int $defaultType The default option type to use when omitted (optional)
+     * @param mixed $options     Array of options, a String, or null (see documentation for details)
+     * @param int   $defaultType The default option type to use when omitted (optional)
+     *
      * @throws \InvalidArgumentException
      *
      * @link https://www.gnu.org/s/hello/manual/libc/Getopt.html GNU Getopt manual
      */
-    public function __construct($options = null, $defaultType = Getopt::NO_ARGUMENT)
+    public function __construct($options = null, $defaultType = self::NO_ARGUMENT)
     {
         $this->optionParser = new OptionParser($defaultType);
         if ($options !== null) {
@@ -72,6 +73,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
      * Extends the list of known options. Takes the same argument types as the constructor.
      *
      * @param mixed $options
+     *
      * @throws \InvalidArgumentException
      */
     public function addOptions($options)
@@ -81,7 +83,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
         } elseif (is_array($options)) {
             $this->mergeOptions($this->optionParser->parseArray($options));
         } else {
-            throw new \InvalidArgumentException("Getopt(): argument must be string or array");
+            throw new \InvalidArgumentException('Getopt(): argument must be string or array');
         }
     }
 
@@ -90,6 +92,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
      * conflicts.
      *
      * @param Option[] $options The list of new options
+     *
      * @throws \InvalidArgumentException
      */
     private function mergeOptions(array $options)
@@ -118,13 +121,15 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
         $this->optionList = array_values($mergedList);
     }
 
-    private function optionsConflict(Option $option1, Option $option2) {
+    private function optionsConflict(Option $option1, Option $option2)
+    {
         if ((is_null($option1->short()) && is_null($option2->short()))
                 || (is_null($option1->long()) && is_null($option2->long()))) {
             return false;
         }
-        return ((($option1->short() === $option2->short()) && ($option1->long() !== $option2->long()))
-                || (($option1->short() !== $option2->short()) && ($option1->long() === $option2->long())));
+
+        return (($option1->short() === $option2->short()) && ($option1->long() !== $option2->long()))
+                || (($option1->short() !== $option2->short()) && ($option1->long() === $option2->long()));
     }
 
     /**
@@ -167,6 +172,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
      * </ul>
      *
      * @param string $name The (short or long) option name.
+     *
      * @return mixed
      */
     public function getOption($name)
@@ -198,6 +204,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
      * Returns the i-th operand (starting with 0), or null if it does not exist. Must be invoked after parse().
      *
      * @param int $i
+     *
      * @return string
      */
     public function getOperand($i)
@@ -206,7 +213,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * Returns the banner string
+     * Returns the banner string.
      *
      * @return string
      */
@@ -216,21 +223,25 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * Set the banner string
+     * Set the banner string.
      *
-     * @param string $banner    The banner string; will be passed to sprintf(), can include %s for current scripts name.
-     *                          Be sure to include a trailing line feed.
+     * @param string $banner The banner string; will be passed to sprintf(), can include %s for current scripts name.
+     *                       Be sure to include a trailing line feed.
+     *
      * @return Getopt
      */
     public function setBanner($banner)
     {
         $this->banner = $banner;
+
         return $this;
     }
 
     /**
      * Returns an usage information text generated from the given options.
+     *
      * @param int $padding Number of characters to pad output of options to
+     *
      * @return string
      */
     public function getHelpText($padding = 25)
@@ -244,10 +255,10 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
                     $mode = '';
                     break;
                 case self::REQUIRED_ARGUMENT:
-                    $mode = "<".$option->getArgument()->getName().">";
+                    $mode = '<'.$option->getArgument()->getName().'>';
                     break;
                 case self::OPTIONAL_ARGUMENT:
-                    $mode = "[<".$option->getArgument()->getName().">]";
+                    $mode = '[<'.$option->getArgument()->getName().'>]';
                     break;
             }
             $short = ($option->short()) ? '-'.$option->short() : '';
@@ -255,14 +266,14 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
             if ($short && $long) {
                 $options = $short.', '.$long;
             } else {
-                $options = $short ? : $long;
+                $options = $short ?: $long;
             }
-            $padded = str_pad(sprintf("  %s %s", $options, $mode), $padding);
+            $padded = str_pad(sprintf('  %s %s', $options, $mode), $padding);
             $helpText .= sprintf("%s %s\n", $padded, $option->getDescription());
         }
+
         return $helpText;
     }
-
 
     /*
      * Interface support functions
@@ -293,15 +304,20 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
         throw new \LogicException('Getopt is read-only');
     }
 
-    public function getIterator()
+    public function getIterator($use = 'short')
     {
+        $allow = array('long' => 'short', 'short' => 'long');
+        if (!in_array($use, $allow)) {
+            throw new \InvalidArgumentException("Argument '$use' is prohibited");
+        }
+        $unwant = $allow[$use];
         // For options that have both short and long names, $this->options has two entries.
         // We don't want this when iterating, so we have to filter the duplicates out.
         $filteredOptions = array();
         foreach ($this->options as $name => $value) {
             $keep = true;
             foreach ($this->optionList as $option) {
-                if ($option->long() == $name && !is_null($option->short())) {
+                if ($option->$unwant() == $name && !is_null($option->$use())) {
                     $keep = false;
                 }
             }
@@ -309,6 +325,7 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
                 $filteredOptions[$name] = $value;
             }
         }
+
         return new \ArrayIterator($filteredOptions);
     }
 }

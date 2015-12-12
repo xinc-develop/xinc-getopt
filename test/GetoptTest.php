@@ -13,7 +13,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
             array(
                 array('s', null, Getopt::OPTIONAL_ARGUMENT),
                 array(null, 'long', Getopt::OPTIONAL_ARGUMENT),
-                array('n', 'name', Getopt::OPTIONAL_ARGUMENT)
+                array('n', 'name', Getopt::OPTIONAL_ARGUMENT),
             )
         );
 
@@ -29,7 +29,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         $getopt->addOptions(
             array(
                 array('s'),
-                array('long', Getopt::OPTIONAL_ARGUMENT)
+                array('long', Getopt::OPTIONAL_ARGUMENT),
             )
         );
 
@@ -43,7 +43,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         $getopt = new Getopt(null, Getopt::REQUIRED_ARGUMENT);
         $getopt->addOptions(
             array(
-                array('l', 'long')
+                array('l', 'long'),
             )
         );
 
@@ -64,10 +64,10 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
     public function testAddOptionsOverwritesExistingOptions()
     {
         $getopt = new Getopt(array(
-            array('a', null, Getopt::REQUIRED_ARGUMENT)
+            array('a', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $getopt->addOptions(array(
-            array('a', null, Getopt::NO_ARGUMENT)
+            array('a', null, Getopt::NO_ARGUMENT),
         ));
         $getopt->parse('-a foo');
 
@@ -79,10 +79,10 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException');
         $getopt = new Getopt(array(
-            array('v', 'version')
+            array('v', 'version'),
         ));
         $getopt->addOptions(array(
-            array('v', 'verbose')
+            array('v', 'verbose'),
         ));
     }
 
@@ -130,7 +130,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
     {
         $getopt = new Getopt(array(
             array(null, 'alpha', Getopt::NO_ARGUMENT),
-            array('b', 'beta', Getopt::REQUIRED_ARGUMENT)
+            array('b', 'beta', Getopt::REQUIRED_ARGUMENT),
         ));
         $getopt->parse('--alpha -b foo');
         $expected = array('alpha' => 1, 'b' => 'foo'); // 'beta' should not occur
@@ -144,7 +144,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         $getopt = new Getopt(array(
             array('a', 'alpha', Getopt::NO_ARGUMENT, 'Short and long options with no argument'),
             array(null, 'beta', Getopt::OPTIONAL_ARGUMENT, 'Long option only with an optional argument'),
-            array('c', null, Getopt::REQUIRED_ARGUMENT, 'Short option only with a mandatory argument')
+            array('c', null, Getopt::REQUIRED_ARGUMENT, 'Short option only with a mandatory argument'),
         ));
         $getopt->parse('');
 
@@ -164,7 +164,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         $getopt = new Getopt(array(
             array('a', 'alpha', Getopt::NO_ARGUMENT),
             array(null, 'beta', Getopt::OPTIONAL_ARGUMENT),
-            array('c', null, Getopt::REQUIRED_ARGUMENT)
+            array('c', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $getopt->parse('');
 
@@ -189,12 +189,58 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
     public function testHelpTextWithCustomBanner()
     {
         $script = $_SERVER['PHP_SELF'];
-        
+
         $getopt = new Getopt();
         $getopt->setBanner("My custom Banner %s\n");
         $this->assertSame("My custom Banner \nOptions:\n", $getopt->getHelpText());
 
         $getopt->parse('');
         $this->assertSame("My custom Banner $script\nOptions:\n", $getopt->getHelpText());
+    }
+
+    public function testOffsetSet()
+    {
+        $this->setExpectedException('LogicException');
+        $getopt = new Getopt();
+        $getopt->parse('');
+        $getopt['b'] = 'null';
+    }
+
+    public function testOffsetUnset()
+    {
+        $this->setExpectedException('LogicException');
+        $option = new Option('a', 'arg', Getopt::REQUIRED_ARGUMENT);
+        $option->setDefaultValue('plus');
+        $getopt = new Getopt(array($option));
+        $getopt->parse('');
+        unset($getopt['a']);
+    }
+
+    public function testOffsetExists()
+    {
+        $getopt = new Getopt(
+                 array(array('a', 'arg', Getopt::NO_ARGUMENT), array('b', 'block', Getopt::REQUIRED_ARGUMENT))
+
+);
+        $getopt->parse('-a');
+        $this->assertFalse(isset($getopt['b']));
+        $this->assertFalse(isset($getopt['block']));
+        $this->assertTrue(isset($getopt['a']));
+        $this->assertTrue(isset($getopt['arg']));
+    }
+
+    public function testOptionIterator()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $getopt = new Getopt(array(
+            array('a', null, Getopt::NO_ARGUMENT),
+            array('b', 'beta', Getopt::REQUIRED_ARGUMENT),
+        ));
+        $getopt->parse('-a -b foo');
+        $expected = array('a' => 1, 'beta' => 'foo'); // 'b' should not occur
+        foreach ($getopt->getIterator('long') as $option => $value) {
+            $this->assertEquals($expected[$option], $value);
+        }
+        $getopt->getIterator('foo');
     }
 }

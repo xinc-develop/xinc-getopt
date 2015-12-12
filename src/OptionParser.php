@@ -1,28 +1,28 @@
 <?php
-  /**
-   * @version   3.0.0
-   * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
-   * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
-   * @license Permission is hereby granted, free of charge, to any person 
-   *          obtaining a copy of this software and associated documentation 
-   *          files (the "Software"), to deal in the Software without restriction,
-   *          including without limitation the rights to use, copy, modify, merge, 
-   *          publish, distribute, sublicense, and/or sell copies of the Software, 
-   *          and to permit persons to whom the Software is furnished to do so,
-   *          subject to the following conditions:
-   *          \\
-   *          The above copyright notice and this permission notice shall be included 
-   *          in all copies or substantial portions of the Software.
-   *          \\
-   *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
-   *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-   *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-   *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-   *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-   *          SOFTWARE.
-   */
-
+/**
+ * @version   3.0.0
+ *
+ * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
+ * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
+ * @license Permission is hereby granted, free of charge, to any person 
+ *          obtaining a copy of this software and associated documentation 
+ *          files (the "Software"), to deal in the Software without restriction,
+ *          including without limitation the rights to use, copy, modify, merge, 
+ *          publish, distribute, sublicense, and/or sell copies of the Software, 
+ *          and to permit persons to whom the Software is furnished to do so,
+ *          subject to the following conditions:
+ *          \\
+ *          The above copyright notice and this permission notice shall be included 
+ *          in all copies or substantial portions of the Software.
+ *          \\
+ *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ *          SOFTWARE.
+ */
 namespace Xinc\Getopt;
 
 /**
@@ -37,7 +37,8 @@ class OptionParser
      *
      * @param int $defaultMode will be assigned to options when no mode is given for them.
      */
-    public function __construct($defaultMode) {
+    public function __construct($defaultMode)
+    {
         $this->defaultMode = $defaultMode;
     }
 
@@ -45,7 +46,9 @@ class OptionParser
      * Parse a GNU-style option string.
      *
      * @param string $string the option string
+     *
      * @return Option[]
+     *
      * @throws \InvalidArgumentException
      */
     public function parseString($string)
@@ -60,7 +63,7 @@ class OptionParser
             $ch = $string[$i];
             if (!preg_match('/^[A-Za-z0-9]$/', $ch)) {
                 $colon = $nextCanBeColon ? " or ':'" : '';
-                throw new \InvalidArgumentException("Option string is not well formed: "
+                throw new \InvalidArgumentException('Option string is not well formed: '
                     ."expected a letter$colon, found '$ch' at position ".($i + 1));
             }
             if ($i == $eol || $string[$i + 1] != ':') {
@@ -76,18 +79,21 @@ class OptionParser
                 $nextCanBeColon = true;
             }
         }
+
         return $options;
     }
 
     /**
      * Processes an option array. The array elements can either be Option objects or arrays conforming to the format
      * (short, long, mode [, description [, default]]). See documentation for details.
-	 *
-	 * Developer note: Please don't add any further elements to the array. Future features should be configured only
-	 * through the Option class's methods.
+     *
+     * Developer note: Please don't add any further elements to the array. Future features should be configured only
+     * through the Option class's methods.
      *
      * @param array $array
+     *
      * @return Option[]
+     *
      * @throws \InvalidArgumentException
      */
     public function parseArray(array $array)
@@ -102,15 +108,16 @@ class OptionParser
             } elseif (is_array($row)) {
                 $options[] = $this->createOption($row);
             } else {
-                throw new \InvalidArgumentException("Invalid option type, must be Option or array");
+                throw new \InvalidArgumentException('Invalid option type, must be Option or array');
             }
-
         }
+
         return $options;
     }
 
     /**
      * @param array $row
+     *
      * @return Option
      */
     private function createOption(array $row)
@@ -126,6 +133,7 @@ class OptionParser
         if ($rowSize >= 5 && $row[2] != Getopt::NO_ARGUMENT) {
             $option->setArgument(new Argument($row[4]));
         }
+
         return $option;
     }
 
@@ -137,6 +145,7 @@ class OptionParser
      * - If the type is left out, it is set to NO_ARGUMENT.
      *
      * @param array $row
+     *
      * @return array
      */
     private function completeOptionArray(array $row)

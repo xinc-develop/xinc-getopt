@@ -10,7 +10,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseNoOptions()
     {
         $parser = new CommandLineParser(array(
-            new Option('a', null)
+            new Option('a', null),
         ));
         $parser->parse('something');
         $this->assertCount(0, $parser->getOptions());
@@ -23,7 +23,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('UnexpectedValueException');
         $parser = new CommandLineParser(array(
-            new Option('a', null)
+            new Option('a', null),
         ));
         $parser->parse('-b');
     }
@@ -32,7 +32,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('UnexpectedValueException');
         $parser = new CommandLineParser(array(
-            new Option('a', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('a', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-a');
     }
@@ -41,7 +41,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('a', null),
-            new Option('b', null)
+            new Option('b', null),
         ));
         $parser->parse('-ab');
 
@@ -54,7 +54,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('a', null),
-            new Option('b', null)
+            new Option('b', null),
         ));
         $parser->parse('-a -b -a -a');
 
@@ -67,7 +67,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('a', null),
-            new Option('b', null)
+            new Option('b', null),
         ));
         $parser->parse('-abaa');
 
@@ -79,7 +79,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseShortOptionWithArgument()
     {
         $parser = new CommandLineParser(array(
-            new Option('a', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('a', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-a value');
 
@@ -90,7 +90,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseZeroArgument()
     {
         $parser = new CommandLineParser(array(
-            new Option('a', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('a', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-a 0');
 
@@ -102,7 +102,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('a', null, Getopt::REQUIRED_ARGUMENT),
-            new Option('2', null)
+            new Option('2', null),
         ));
         $parser->parse('-a 2 -2');
 
@@ -116,7 +116,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('UnexpectedValueException');
         $parser = new CommandLineParser(array(
             new Option('a', null),
-            new Option('b', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('b', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-ab');
     }
@@ -125,7 +125,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('a', null),
-            new Option('b', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('b', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-ab value');
 
@@ -151,7 +151,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParsedRequiredArumentWithNoSpace()
     {
         $parser = new CommandLineParser(array(
-            new Option('p', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('p', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-ppassword');
         $options = $parser->getOptions();
@@ -161,7 +161,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('v', null),
-            new Option('p', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('p', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-vvvppassword');
         $options = $parser->getOptions();
@@ -173,7 +173,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('a', null, Getopt::REQUIRED_ARGUMENT),
-            new Option('b', null)
+            new Option('b', null),
         ));
         $parser->parse('-- -a -b');
 
@@ -187,7 +187,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseLongOptionWithoutArgument()
     {
         $parser = new CommandLineParser(array(
-            new Option('o', 'option', Getopt::OPTIONAL_ARGUMENT)
+            new Option('o', 'option', Getopt::OPTIONAL_ARGUMENT),
         ));
         $parser->parse('--option');
 
@@ -198,7 +198,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseLongOptionWithoutArgumentAndOperand()
     {
         $parser = new CommandLineParser(array(
-            new Option('o', 'option', Getopt::NO_ARGUMENT)
+            new Option('o', 'option', Getopt::NO_ARGUMENT),
         ));
         $parser->parse('--option something');
 
@@ -212,7 +212,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseLongOptionWithArgument()
     {
         $parser = new CommandLineParser(array(
-            new Option('o', 'option', Getopt::OPTIONAL_ARGUMENT)
+            new Option('o', 'option', Getopt::OPTIONAL_ARGUMENT),
         ));
         $parser->parse('--option value');
 
@@ -224,7 +224,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseLongOptionWithEqualsSignAndArgument()
     {
         $parser = new CommandLineParser(array(
-            new Option('o', 'option', Getopt::OPTIONAL_ARGUMENT)
+            new Option('o', 'option', Getopt::OPTIONAL_ARGUMENT),
         ));
         $parser->parse('--option=value something');
 
@@ -238,7 +238,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testParseLongOptionWithValueStartingWithHyphen()
     {
         $parser = new CommandLineParser(array(
-            new Option('o', 'option', Getopt::REQUIRED_ARGUMENT)
+            new Option('o', 'option', Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('--option=-value');
 
@@ -251,7 +251,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('UnexpectedValueException');
         $parser = new CommandLineParser(array(
             new Option('a', null, Getopt::REQUIRED_ARGUMENT),
-            new Option('b', null)
+            new Option('b', null),
         ));
         $parser->parse('-a -b');
     }
@@ -260,7 +260,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     {
         $parser = new CommandLineParser(array(
             new Option('a', null, Getopt::OPTIONAL_ARGUMENT),
-            new Option('b', null)
+            new Option('b', null),
         ));
         $parser->parse('-a -b');
 
@@ -287,7 +287,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testDoubleHyphenNotInOperands()
     {
         $parser = new CommandLineParser(array(
-            new Option('a', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('a', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-a 0 foo -- bar baz');
 
@@ -303,7 +303,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
     public function testSingleHyphenValue()
     {
         $parser = new CommandLineParser(array(
-            new Option('a', 'alpha', Getopt::REQUIRED_ARGUMENT)
+            new Option('a', 'alpha', Getopt::REQUIRED_ARGUMENT),
         ));
 
         $parser->parse('-a -');
@@ -320,11 +320,11 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $operands = $parser->getOperands();
         $this->assertCount(0, $operands);
     }
-    
+
     public function testSingleHyphenOperand()
     {
         $parser = new CommandLineParser(array(
-            new Option('a', null, Getopt::REQUIRED_ARGUMENT)
+            new Option('a', null, Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-a 0 -');
 

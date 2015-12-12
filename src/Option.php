@@ -1,28 +1,28 @@
 <?php
-  /**
-   * @version   3.0.0
-   * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
-   * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
-   * @license Permission is hereby granted, free of charge, to any person 
-   *          obtaining a copy of this software and associated documentation 
-   *          files (the "Software"), to deal in the Software without restriction,
-   *          including without limitation the rights to use, copy, modify, merge, 
-   *          publish, distribute, sublicense, and/or sell copies of the Software, 
-   *          and to permit persons to whom the Software is furnished to do so,
-   *          subject to the following conditions:
-   *          \\
-   *          The above copyright notice and this permission notice shall be included 
-   *          in all copies or substantial portions of the Software.
-   *          \\
-   *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
-   *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-   *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-   *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-   *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-   *          SOFTWARE.
-   */
-
+/**
+ * @version   3.0.0
+ *
+ * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
+ * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
+ * @license Permission is hereby granted, free of charge, to any person 
+ *          obtaining a copy of this software and associated documentation 
+ *          files (the "Software"), to deal in the Software without restriction,
+ *          including without limitation the rights to use, copy, modify, merge, 
+ *          publish, distribute, sublicense, and/or sell copies of the Software, 
+ *          and to permit persons to whom the Software is furnished to do so,
+ *          subject to the following conditions:
+ *          \\
+ *          The above copyright notice and this permission notice shall be included 
+ *          in all copies or substantial portions of the Software.
+ *          \\
+ *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ *          SOFTWARE.
+ */
 namespace Xinc\Getopt;
 
 /**
@@ -40,16 +40,17 @@ class Option
      * Creates a new option.
      *
      * @param string $short the option's short name (a single letter or digit) or null for long-only options
-     * @param string $long the option's long name (a string of 2+ letter/digit/_/- characters, starting with a letter
-     *                     or digit) or null for short-only options
-     * @param int $mode whether the option can/must have an argument (one of the constants defined in the Getopt class)
-     *                  (optional, defaults to no argument)
+     * @param string $long  the option's long name (a string of 2+ letter/digit/_/- characters, starting with a letter
+     *                      or digit) or null for short-only options
+     * @param int    $mode  whether the option can/must have an argument (one of the constants defined in the Getopt class)
+     *                      (optional, defaults to no argument)
+     *
      * @throws \InvalidArgumentException if both short and long name are null
      */
     public function __construct($short, $long, $mode = Getopt::NO_ARGUMENT)
     {
         if (!$short && !$long) {
-            throw new \InvalidArgumentException("The short and long name may not both be empty");
+            throw new \InvalidArgumentException('The short and long name may not both be empty');
         }
         $this->setShort($short);
         $this->setLong($long);
@@ -61,50 +62,58 @@ class Option
      * Defines a description for the option. This is only used for generating usage information.
      *
      * @param string $description
+     *
      * @return Option this object (for chaining calls)
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
-	/**
-	 * Defines a default value for the option.
-	 *
-	 * @param mixed $value
+    /**
+     * Defines a default value for the option.
+     *
+     * @param mixed $value
+     *
      * @return Option this object (for chaining calls)
-	 */
-	public function setDefaultValue($value)
-	{
-		$this->argument->setDefaultValue($value);
-		return $this;
-	}
+     */
+    public function setDefaultValue($value)
+    {
+        $this->argument->setDefaultValue($value);
 
-	/**
-	 * Defines a validation function for the option.
-	 *
-	 * @param callable $function
-	 * @return Option this object (for chaining calls)
-	 */
-	public function setValidation($function)
-	{
-		$this->argument->setValidation($function);
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
+    /**
+     * Defines a validation function for the option.
+     *
+     * @param callable $function
+     *
+     * @return Option this object (for chaining calls)
+     */
+    public function setValidation($function)
+    {
+        $this->argument->setValidation($function);
+
+        return $this;
+    }
+
+    /**
      * Sets the argument object directly.
      *
      * @param Argument $arg
+     *
      * @return Option this object (for chaining calls)
      */
     public function setArgument(Argument $arg)
     {
         if ($this->mode == Getopt::NO_ARGUMENT) {
-            throw new \InvalidArgumentException("Option should not have any argument");
+            throw new \InvalidArgumentException('Option should not have any argument');
         }
         $this->argument = $arg;
+
         return $this;
     }
 
@@ -112,6 +121,7 @@ class Option
      * Returns true if the given string is equal to either the short or the long name.
      *
      * @param string $string
+     *
      * @return bool
      */
     public function matches($string)
@@ -140,7 +150,7 @@ class Option
     }
 
     /**
-     * Retrieve the argument object
+     * Retrieve the argument object.
      * 
      * @return Argument
      */
@@ -148,10 +158,10 @@ class Option
     {
         return $this->argument;
     }
-    
+
     private function setShort($short)
     {
-        if (!(is_null($short) || preg_match("/^[a-zA-Z0-9]$/", $short))) {
+        if (!(is_null($short) || preg_match('/^[a-zA-Z0-9]$/', $short))) {
             throw new \InvalidArgumentException("Short option must be null or a letter/digit, found '$short'");
         }
         $this->short = $short;
@@ -159,7 +169,7 @@ class Option
 
     private function setLong($long)
     {
-        if (!(is_null($long) || preg_match("/^[a-zA-Z0-9][a-zA-Z0-9_-]{1,}$/", $long))) {
+        if (!(is_null($long) || preg_match('/^[a-zA-Z0-9][a-zA-Z0-9_-]{1,}$/', $long))) {
             throw new \InvalidArgumentException("Long option must be null or an alphanumeric string, found '$long'");
         }
         $this->long = $long;
@@ -168,8 +178,8 @@ class Option
     private function setMode($mode)
     {
         if (!in_array($mode, array(Getopt::NO_ARGUMENT, Getopt::OPTIONAL_ARGUMENT, Getopt::REQUIRED_ARGUMENT), true)) {
-            throw new \InvalidArgumentException("Option mode must be one of "
-                ."Getopt::NO_ARGUMENT, Getopt::OPTIONAL_ARGUMENT and Getopt::REQUIRED_ARGUMENT");
+            throw new \InvalidArgumentException('Option mode must be one of '
+                .'Getopt::NO_ARGUMENT, Getopt::OPTIONAL_ARGUMENT and Getopt::REQUIRED_ARGUMENT');
         }
         $this->mode = $mode;
     }

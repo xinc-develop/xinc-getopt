@@ -23,8 +23,9 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
     {
         $test = $this;
         $argument = new Argument();
-        $argument->setValidation(function($arg) use ($test, $argument) {
+        $argument->setValidation(function ($arg) use ($test, $argument) {
             $test->assertEquals('test', $arg);
+
             return true;
         });
         $this->assertTrue($argument->hasValidation());

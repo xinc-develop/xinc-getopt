@@ -69,7 +69,7 @@ class OptionParserTest extends \PHPUnit_Framework_TestCase
             array(
                 array('a', 'alpha', Getopt::OPTIONAL_ARGUMENT, 'Description', 42),
                 new Option('b', 'beta'),
-                array('c')
+                array('c'),
             )
         );
 

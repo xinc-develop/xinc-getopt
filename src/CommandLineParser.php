@@ -1,27 +1,26 @@
 <?php
-  /**
-   * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
-   * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
-   * @license Permission is hereby granted, free of charge, to any person 
-   *          obtaining a copy of this software and associated documentation 
-   *          files (the "Software"), to deal in the Software without restriction,
-   *          including without limitation the rights to use, copy, modify, merge, 
-   *          publish, distribute, sublicense, and/or sell copies of the Software, 
-   *          and to permit persons to whom the Software is furnished to do so,
-   *          subject to the following conditions:
-   *          \\
-   *          The above copyright notice and this permission notice shall be included 
-   *          in all copies or substantial portions of the Software.
-   *          \\
-   *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
-   *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-   *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-   *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-   *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-   *          SOFTWARE.
-   */
-
+/**
+ * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
+ * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
+ * @license Permission is hereby granted, free of charge, to any person 
+ *          obtaining a copy of this software and associated documentation 
+ *          files (the "Software"), to deal in the Software without restriction,
+ *          including without limitation the rights to use, copy, modify, merge, 
+ *          publish, distribute, sublicense, and/or sell copies of the Software, 
+ *          and to permit persons to whom the Software is furnished to do so,
+ *          subject to the following conditions:
+ *          \\
+ *          The above copyright notice and this permission notice shall be included 
+ *          in all copies or substantial portions of the Software.
+ *          \\
+ *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+ *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ *          SOFTWARE.
+ */
 namespace Xinc\Getopt;
 
 /**
@@ -62,7 +61,7 @@ class CommandLineParser
             if (empty($arg)) {
                 continue;
             }
-            if (($arg === '--') || ($arg === '-') || (mb_substr($arg, 0, 1) !== '-')){
+            if (($arg === '--') || ($arg === '-') || (mb_substr($arg, 0, 1) !== '-')) {
                 // no more options, treat the remaining arguments as operands
                 $firstOperandIndex = ($arg == '--') ? $i + 1 : $i;
                 $operands = array_slice($arguments, $firstOperandIndex);
@@ -95,9 +94,8 @@ class CommandLineParser
         return $this->options;
     }
 
-
     /**
-     * Returns the operands created by a previous invocation of parse(),
+     * Returns the operands created by a previous invocation of parse(),.
      *
      * @return array
      */
@@ -170,9 +168,9 @@ class CommandLineParser
      * Add an option to the list of known options.
      *
      * @param string $string the option's name
-     * @param string $value the option's value (or null)
+     * @param string $value  the option's value (or null)
+     *
      * @throws \UnexpectedValueException
-     * @return void
      */
     private function addOption($string, $value)
     {
@@ -200,6 +198,7 @@ class CommandLineParser
                 if ($option->long()) {
                     $this->options[$option->long()] = $value;
                 }
+
                 return;
             }
         }
@@ -231,7 +230,8 @@ class CommandLineParser
      * Return true if the given option can take an argument, false if it can't or is unknown.
      *
      * @param string $name the option's name
-     * @return boolean
+     *
+     * @return bool
      */
     private function optionHasArgument($name)
     {
@@ -240,21 +240,24 @@ class CommandLineParser
                 return $option->mode() != Getopt::NO_ARGUMENT;
             }
         }
+
         return false;
     }
 
     /**
-     * Split the string into individual characters,
+     * Split the string into individual characters,.
      *
      * @param string $string string to split
+     *
      * @return array
      */
     private function splitString($string)
     {
         $result = array();
-        for ($i = 0; $i < mb_strlen($string, "UTF-8"); ++$i) {
-            $result[] = mb_substr($string, $i, 1, "UTF-8");
+        for ($i = 0; $i < mb_strlen($string, 'UTF-8'); ++$i) {
+            $result[] = mb_substr($string, $i, 1, 'UTF-8');
         }
+
         return $result;
     }
 }

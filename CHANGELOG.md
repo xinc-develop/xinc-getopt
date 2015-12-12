@@ -1,8 +1,10 @@
 ## 3.0.0 (2015-12-12)
+
 * first release as Xinc.Getopt
 * Makefile is gone
 * move classes and tests
 * use psr-4
+* add option to Getopt::getIterator for filter out also short options
 
 ## 2.3.0 (2015-03-28)
 
