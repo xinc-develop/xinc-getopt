@@ -176,6 +176,13 @@ class CommandLineParser
     {
         foreach ($this->optionList as $option) {
             if ($option->matches($string)) {
+	      if ($option->mode() == Getopt::IS_FLAG) {
+                if(is_null($value)) {
+		  $value = isset($this->options[$string]) ? !$this->options[$string] : 
+		    ($option->getArgument()->hasDefaultValue() ? !$option->getArgument()->getDefaultValue() : true);
+                }
+	      }
+              else {
                 if ($option->mode() == Getopt::REQUIRED_ARGUMENT && !mb_strlen($value)) {
                     throw new \UnexpectedValueException("Option '$string' must have a value");
                 }
@@ -191,6 +198,7 @@ class CommandLineParser
                 }
                 // for optional-argument options, set value to 1 if none was given
                 $value = (mb_strlen($value) > 0) ? $value : 1;
+	      }
                 // add both long and short names (if they exist) to the option array to facilitate lookup
                 if ($option->short()) {
                     $this->options[$option->short()] = $value;

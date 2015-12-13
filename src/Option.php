@@ -109,7 +109,7 @@ class Option
      */
     public function setArgument(Argument $arg)
     {
-        if ($this->mode == Getopt::NO_ARGUMENT) {
+      if ($this->mode == Getopt::NO_ARGUMENT || $this->mode == Getopt::IS_FLAG) {
             throw new \InvalidArgumentException('Option should not have any argument');
         }
         $this->argument = $arg;
@@ -177,9 +177,11 @@ class Option
 
     private function setMode($mode)
     {
-        if (!in_array($mode, array(Getopt::NO_ARGUMENT, Getopt::OPTIONAL_ARGUMENT, Getopt::REQUIRED_ARGUMENT), true)) {
+        $valid = array(Getopt::NO_ARGUMENT, Getopt::OPTIONAL_ARGUMENT, Getopt::REQUIRED_ARGUMENT, Getopt::IS_FLAG);
+        if (!in_array($mode, $valid, true)) {
             throw new \InvalidArgumentException('Option mode must be one of '
-                .'Getopt::NO_ARGUMENT, Getopt::OPTIONAL_ARGUMENT and Getopt::REQUIRED_ARGUMENT');
+                .'Getopt::NO_ARGUMENT, Getopt::OPTIONAL_ARGUMENT, Getopt::REQUIRED_ARGUMENT and '
+                .'Getopt::IS_FLAG');
         }
         $this->mode = $mode;
     }

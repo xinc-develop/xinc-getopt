@@ -148,6 +148,60 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('b', $operands[0]);
     }
 
+    public function testAFlagWithDefaultFalse()
+    {
+      $opt = new Option('a',null,Getopt::IS_FLAG);
+      $opt->setDefaultValue(false);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('');
+      $options = $parser->getOptions();
+      $this->assertFalse($options['a']);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('-a');
+      $options = $parser->getOptions();
+      $this->assertTrue($options['a']);
+    }
+
+    public function testAFlagWithDefaultTrue()
+    {
+      $opt = new Option('a',null,Getopt::IS_FLAG);
+      $opt->setDefaultValue(true);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('');
+      $options = $parser->getOptions();
+      $this->assertTrue($options['a']);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('-a');
+      $options = $parser->getOptions();
+      $this->assertFalse($options['a']);
+    }
+
+    public function testAFlagWithoutDefault()
+    {
+      $opt = new Option('a',null,Getopt::IS_FLAG);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('');
+      $options = $parser->getOptions();
+      $this->assertArrayNotHasKey('a',$options);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('-a');
+      $options = $parser->getOptions();
+      $this->assertTrue($options['a']);
+    }
+
+    public function testMultipleFlags()
+    {
+      $opt = new Option('a',null,Getopt::IS_FLAG);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('-a -a');
+      $options = $parser->getOptions();
+      $this->assertFalse($options['a']);
+      $parser = new CommandLineParser(array($opt));
+      $parser->parse('-a -a -a');
+      $options = $parser->getOptions();
+      $this->assertTrue($options['a']);
+    }
+
     public function testParsedRequiredArumentWithNoSpace()
     {
         $parser = new CommandLineParser(array(

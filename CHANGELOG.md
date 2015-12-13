@@ -1,3 +1,8 @@
+## 3.0.3 (2015-12-14)
+
+Features:
+* Flags as true boolean values added
+
 ## 3.0.2 (2015-12-13)
 
 * fix Argument::hasDefaultValue, refs #1
