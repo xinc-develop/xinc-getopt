@@ -8,8 +8,15 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
     {
         $argument1 = new Argument();
         $argument2 = new Argument(10);
+        $argument3 = new Argument("");
+        $argument4 = new Argument(0);
         $this->assertFalse($argument1->hasDefaultValue());
+        $this->assertTrue($argument2->hasDefaultValue());
+        $this->assertTrue($argument3->hasDefaultValue());
+        $this->assertTrue($argument4->hasDefaultValue());
         $this->assertEquals(10, $argument2->getDefaultValue());
+        $this->assertEquals("",$argument3->getDefaultValue());
+        $this->assertEquals(0,$argument4->getDefaultValue());
     }
 
     public function testSetDefaultValueNotScalar()

@@ -119,7 +119,7 @@ class Argument
      */
     public function hasDefaultValue()
     {
-        return !empty($this->default);
+        return isset($this->default);
     }
 
     /**

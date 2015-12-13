@@ -1,3 +1,11 @@
+## 3.0.2 (2015-12-13)
+
+* fix Argument::hasDefaultValue, refs #1
+
+## 3.0.1 (2015-12-13)
+
+* fix composer name. thank you packagist
+
 ## 3.0.0 (2015-12-12)
 
 * first release as Xinc.Getopt
