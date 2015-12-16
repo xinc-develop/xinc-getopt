@@ -85,6 +85,14 @@ class Option
 
         return $this;
     }
+    
+    /**
+     * @return mixed the given default value
+     */
+    public function getDefaultValue()
+    {
+	return $this->argument->getDefaultValue();
+    }
 
     /**
      * Defines a validation function for the option.

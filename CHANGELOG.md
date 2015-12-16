@@ -1,3 +1,10 @@
+## 3.0.5 (2015-12-16)
+
+* new method Option::getDefaultValue()
+
+Ok the way getArgument()->getDefaultValue() already exists
+but I want to hide Argument as an implementation detail.
+
 ## 3.0.4 (2015-12-16)
 
 * new method Getopt::getOptionObjects
