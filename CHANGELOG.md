@@ -1,3 +1,10 @@
+## 3.0.4 (2015-12-16)
+
+* new method Getopt::getOptionObjects
+
+This method is introduced for cases where an option should be configured
+in different places.
+
 ## 3.0.3 (2015-12-14)
 
 Features:

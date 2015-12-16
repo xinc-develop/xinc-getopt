@@ -2,25 +2,25 @@
 /**
  * @version   3.0.0
  *
- * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
+ * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de>
  * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
- * @license Permission is hereby granted, free of charge, to any person 
- *          obtaining a copy of this software and associated documentation 
+ * @license Permission is hereby granted, free of charge, to any person
+ *          obtaining a copy of this software and associated documentation
  *          files (the "Software"), to deal in the Software without restriction,
- *          including without limitation the rights to use, copy, modify, merge, 
- *          publish, distribute, sublicense, and/or sell copies of the Software, 
+ *          including without limitation the rights to use, copy, modify, merge,
+ *          publish, distribute, sublicense, and/or sell copies of the Software,
  *          and to permit persons to whom the Software is furnished to do so,
  *          subject to the following conditions:
  *          \\
- *          The above copyright notice and this permission notice shall be included 
+ *          The above copyright notice and this permission notice shall be included
  *          in all copies or substantial portions of the Software.
  *          \\
- *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *          SOFTWARE.
  */
 namespace Xinc\Getopt;
@@ -88,6 +88,23 @@ class Getopt implements \Countable, \ArrayAccess, \IteratorAggregate
         }
     }
 
+    /**
+     * @return an assoziative array with option objects.
+     */
+    public function getOptionObjects()
+    {
+        $return = array();
+        foreach ($this->optionList as $option) {
+            if ($option->short() !== null) {
+                $return[$option->short()] = $option;
+            }
+            if ($option->long() !== null) {
+                $return[$option->long()] = $option;
+            }
+        }
+
+        return $return;
+    }
     /**
      * Merges new options with the ones already in the Getopt optionList, making sure the resulting list is free of
      * conflicts.

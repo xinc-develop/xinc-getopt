@@ -109,7 +109,7 @@ class Option
      */
     public function setArgument(Argument $arg)
     {
-      if ($this->mode == Getopt::NO_ARGUMENT || $this->mode == Getopt::IS_FLAG) {
+        if ($this->mode == Getopt::NO_ARGUMENT || $this->mode == Getopt::IS_FLAG) {
             throw new \InvalidArgumentException('Option should not have any argument');
         }
         $this->argument = $arg;

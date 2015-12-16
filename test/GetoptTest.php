@@ -23,6 +23,17 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('sparam', $getopt->getOption('s'));
     }
 
+    public function testGetOptionObjects()
+    {
+        $opts[] = new Option('a', null);
+        $opts[] = new Option('l', 'long');
+        $getopt = new Getopt($opts);
+        $opt2 = $getopt->getOptionObjects();
+        $this->assertSame($opt2['a'], $opts[0]);
+        $this->assertSame($opt2['l'], $opts[1]);
+        $this->assertSame($opt2['long'], $opts[1]);
+    }
+
     public function testAddOptionsChooseShortOrLongAutomatically()
     {
         $getopt = new Getopt();
