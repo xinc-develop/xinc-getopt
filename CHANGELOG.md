@@ -1,3 +1,10 @@
+## 3.1.0 (2016-05-10)
+
+* new Value class added
+
+There is a huge requirement, to know when an value comes
+from the option default value.
+
 ## 3.0.5 (2015-12-16)
 
 * new method Option::getDefaultValue()
