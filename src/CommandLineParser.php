@@ -1,24 +1,24 @@
 <?php
 /**
- * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de> 
+ * @copyright 2011-2014 Ulrich Schmidt-Goertz <ulrich at schmidt-goertz.de>
  * @copyright 2015 Xinc Development Team, https://github.com/xinc-develop/
- * @license Permission is hereby granted, free of charge, to any person 
- *          obtaining a copy of this software and associated documentation 
+ * @license Permission is hereby granted, free of charge, to any person
+ *          obtaining a copy of this software and associated documentation
  *          files (the "Software"), to deal in the Software without restriction,
- *          including without limitation the rights to use, copy, modify, merge, 
- *          publish, distribute, sublicense, and/or sell copies of the Software, 
+ *          including without limitation the rights to use, copy, modify, merge,
+ *          publish, distribute, sublicense, and/or sell copies of the Software,
  *          and to permit persons to whom the Software is furnished to do so,
  *          subject to the following conditions:
  *          \\
- *          The above copyright notice and this permission notice shall be included 
+ *          The above copyright notice and this permission notice shall be included
  *          in all copies or substantial portions of the Software.
  *          \\
- *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+ *          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
  *          OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ *          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *          SOFTWARE.
  */
 namespace Xinc\Getopt;
@@ -178,8 +178,10 @@ class CommandLineParser
             if ($option->matches($string)) {
                 if ($option->mode() == Getopt::IS_FLAG) {
                     if (is_null($value)) {
-                        $value = isset($this->options[$string]) ? !$this->options[$string] :
-            ($option->getArgument()->hasDefaultValue() ? !$option->getArgument()->getDefaultValue() : true);
+                        $value = isset($this->options[$string]) ?
+                            !$this->options[$string] :
+                ($option->getArgument()->hasDefaultValue() ?
+                            !$option->getArgument()->getDefaultValue() : true);
                     }
                 } else {
                     if ($option->mode() == Getopt::REQUIRED_ARGUMENT && !mb_strlen($value)) {
@@ -200,10 +202,10 @@ class CommandLineParser
                 }
                 // add both long and short names (if they exist) to the option array to facilitate lookup
                 if ($option->short()) {
-                    $this->options[$option->short()] = $value;
+                    $this->options[$option->short()] = new Value($value);
                 }
                 if ($option->long()) {
-                    $this->options[$option->long()] = $value;
+                    $this->options[$option->long()] = new Value($value);
                 }
 
                 return;
@@ -213,8 +215,8 @@ class CommandLineParser
     }
 
     /**
-     * If there are options with default values that were not overridden by the parsed option string,
-     * add them to the list of known options.
+     * If there are options with default values that were not overridden
+     * by the parsed option string, add them to the list of known options.
      */
     private function addDefaultValues()
     {
@@ -224,17 +226,26 @@ class CommandLineParser
                     && !isset($this->options[$option->long()])
             ) {
                 if ($option->short()) {
+                    $this->options[$option->short()] = new Value($value);
+                }
+                if ($option->long()) {
+                    $this->options[$option->long()] = new Value($value);
+                }
+/*
+                if ($option->short()) {
                     $this->addOption($option->short(), $option->getArgument()->getDefaultValue());
                 }
                 if ($option->long()) {
                     $this->addOption($option->long(), $option->getArgument()->getDefaultValue());
                 }
+*/
             }
         }
     }
 
     /**
-     * Return true if the given option can take an argument, false if it can't or is unknown.
+     * Return true if the given option can take an argument, false if
+     * it can't or is unknown.
      *
      * @param string $name the option's name
      *

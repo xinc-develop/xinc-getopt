@@ -6,7 +6,7 @@
     "license": "MIT",
     "authors": [
         {"name": "Ulrich Schmidt-Goertz", "email":"ulrich@schmidt-goertz.de"},
-	{"name": "Sebastian Knapp","email": "news@young-workers.de"}
+        {"name": "Sebastian Knapp","email": "news@young-workers.de"}
     ],
     "require": {
         "php": ">=5.4.4"
