@@ -19,13 +19,24 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('something', $operands[0]);
     }
 
-    public function testParseUnknownOption()
+    public function testParseUnknownOption1()
     {
         $this->setExpectedException('UnexpectedValueException');
         $parser = new CommandLineParser(array(
             new Option('a', null),
+            new Option('c',null,Getopt::REQUIRED_ARGUMENT),
         ));
         $parser->parse('-b');
+    }
+
+    public function testParseUnknownOption2()
+    {
+        $this->setExpectedException('UnexpectedValueException');
+        $parser = new CommandLineParser(array(
+            new Option('a', null),
+            new Option('c',null,Getopt::REQUIRED_ARGUMENT),
+        ));
+        $parser->parse('-b mmh');
     }
 
     public function testParseRequiredArgumentMissing()
