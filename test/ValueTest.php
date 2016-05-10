@@ -1,8 +1,8 @@
 <?php
 
-use Xinc\Getopt\Argument;
+use Xinc\Getopt\Value;
 
-class ArgumentTest extends \PHPUnit_Framework_TestCase
+class ValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testBooleanValues()
     {

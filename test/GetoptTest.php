@@ -82,7 +82,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         ));
         $getopt->parse('-a foo');
 
-        $this->assertEquals(1, $getopt->getOption('a'));
+        $this->assertEquals('1', $getopt->getOption('a'));
         $this->assertEquals('foo', $getopt->getOperand(0));
     }
 
@@ -104,7 +104,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
 
         $getopt = new Getopt('a');
         $getopt->parse();
-        $this->assertEquals(1, $getopt->getOption('a'));
+        $this->assertEquals('1', $getopt->getOption('a'));
     }
 
     public function testAccessMethods()
@@ -114,8 +114,8 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
 
         $options = $getopt->getOptions();
         $this->assertCount(1, $options);
-        $this->assertEquals(1, $options['a']);
-        $this->assertEquals(1, $getopt->getOption('a'));
+        $this->assertEquals('1', $options['a']);
+        $this->assertEquals('1', $getopt->getOption('a'));
 
         $operands = $getopt->getOperands();
         $this->assertCount(1, $operands);
@@ -134,7 +134,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
     {
         $getopt = new Getopt('q');
         $getopt->parse('-q');
-        $this->assertEquals(1, $getopt['q']);
+        $this->assertEquals('1', $getopt['q']);
     }
 
     public function testIterable()
@@ -146,7 +146,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         $getopt->parse('--alpha -b foo');
         $expected = array('alpha' => 1, 'b' => 'foo'); // 'beta' should not occur
         foreach ($getopt as $option => $value) {
-            $this->assertEquals($expected[$option], $value);
+            $this->assertEquals($expected[$option], $value->getValue());
         }
     }
 
@@ -250,7 +250,7 @@ class GetoptTest extends \PHPUnit_Framework_TestCase
         $getopt->parse('-a -b foo');
         $expected = array('a' => 1, 'beta' => 'foo'); // 'b' should not occur
         foreach ($getopt->getIterator('long') as $option => $value) {
-            $this->assertEquals($expected[$option], $value);
+            $this->assertEquals($expected[$option], $value->getValue());
         }
         $getopt->getIterator('foo');
     }

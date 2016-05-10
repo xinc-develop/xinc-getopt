@@ -46,8 +46,8 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-ab');
 
         $options = $parser->getOptions();
-        $this->assertEquals(1, $options['a']);
-        $this->assertEquals(1, $options['b']);
+        $this->assertEquals(1, $options['a']->getValue());
+        $this->assertEquals(1, $options['b']->getValue());
     }
 
     public function testParseCumulativeOption()
@@ -59,8 +59,8 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-a -b -a -a');
 
         $options = $parser->getOptions();
-        $this->assertEquals(3, $options['a']);
-        $this->assertEquals(1, $options['b']);
+        $this->assertEquals(3, $options['a']->getValue());
+        $this->assertEquals(1, $options['b']->getValue());
     }
 
     public function testParseCumulativeOptionShort()
@@ -72,8 +72,8 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-abaa');
 
         $options = $parser->getOptions();
-        $this->assertEquals(3, $options['a']);
-        $this->assertEquals(1, $options['b']);
+        $this->assertEquals(3, $options['a']->getValue());
+        $this->assertEquals(1, $options['b']->getValue());
     }
 
     public function testParseShortOptionWithArgument()
@@ -108,7 +108,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
 
         $options = $parser->getOptions();
         $this->assertEquals('2', $options['a']);
-        $this->assertEquals(1, $options['2']);
+        $this->assertEquals('1', $options['2']);
     }
 
     public function testParseCollapsedShortOptionsRequiredArgumentMissing()
@@ -130,7 +130,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-ab value');
 
         $options = $parser->getOptions();
-        $this->assertEquals(1, $options['a']);
+        $this->assertEquals('1', $options['a']);
         $this->assertEquals('value', $options['b']);
     }
 
@@ -142,7 +142,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-a b');
 
         $options = $parser->getOptions();
-        $this->assertEquals(1, $options['a']);
+        $this->assertEquals('1', $options['a']);
         $operands = $parser->getOperands();
         $this->assertCount(1, $operands);
         $this->assertEquals('b', $operands[0]);
@@ -155,11 +155,13 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser = new CommandLineParser(array($opt));
         $parser->parse('');
         $options = $parser->getOptions();
-        $this->assertFalse($options['a']);
+        $this->assertFalse($options['a']->getValue());
+        $this->assertTrue($options['a']->getIsDefault());
         $parser = new CommandLineParser(array($opt));
         $parser->parse('-a');
         $options = $parser->getOptions();
-        $this->assertTrue($options['a']);
+        $this->assertTrue($options['a']->getValue());
+        $this->assertFalse($options['a']->getIsDefault());
     }
 
     public function testAFlagWithDefaultTrue()
@@ -169,11 +171,13 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser = new CommandLineParser(array($opt));
         $parser->parse('');
         $options = $parser->getOptions();
-        $this->assertTrue($options['a']);
+        $this->assertTrue($options['a']->getValue());
+        $this->assertTrue($options['a']->getIsDefault());
         $parser = new CommandLineParser(array($opt));
         $parser->parse('-a');
         $options = $parser->getOptions();
-        $this->assertFalse($options['a']);
+        $this->assertFalse($options['a']->getValue());
+        $this->assertFalse($options['a']->getIsDefault());
     }
 
     public function testAFlagWithoutDefault()
@@ -186,7 +190,8 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser = new CommandLineParser(array($opt));
         $parser->parse('-a');
         $options = $parser->getOptions();
-        $this->assertTrue($options['a']);
+        $this->assertTrue($options['a']->getValue());
+        $this->assertFalse($options['a']->getIsDefault());
     }
 
     public function testMultipleFlags()
@@ -195,11 +200,11 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser = new CommandLineParser(array($opt));
         $parser->parse('-a -a');
         $options = $parser->getOptions();
-        $this->assertFalse($options['a']);
+        $this->assertFalse($options['a']->getValue());
         $parser = new CommandLineParser(array($opt));
         $parser->parse('-a -a -a');
         $options = $parser->getOptions();
-        $this->assertTrue($options['a']);
+        $this->assertTrue($options['a']->getValue());
     }
 
     public function testParsedRequiredArumentWithNoSpace()
@@ -220,7 +225,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-vvvppassword');
         $options = $parser->getOptions();
         $this->assertEquals('password', $options['p']);
-        $this->assertEquals(3, $options['v']);
+        $this->assertEquals('3', $options['v']);
     }
 
     public function testParseOperandsOnly()
@@ -246,7 +251,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('--option');
 
         $options = $parser->getOptions();
-        $this->assertEquals(1, $options['option']);
+        $this->assertEquals('1', $options['option']);
     }
 
     public function testParseLongOptionWithoutArgumentAndOperand()
@@ -257,7 +262,7 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('--option something');
 
         $options = $parser->getOptions();
-        $this->assertEquals(1, $options['option']);
+        $this->assertEquals('1', $options['option']);
         $operands = $parser->getOperands();
         $this->assertCount(1, $operands);
         $this->assertEquals('something', $operands[0]);
@@ -319,8 +324,8 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-a -b');
 
         $options = $parser->getOptions();
-        $this->assertEquals(1, $options['a']);
-        $this->assertEquals(1, $options['b']);
+        $this->assertEquals('1', $options['a']);
+        $this->assertEquals('1', $options['b']);
     }
 
     public function testParseOptionWithDefaultValue()
@@ -333,9 +338,12 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-a 12');
 
         $options = $parser->getOptions();
-        $this->assertEquals(12, $options['a']);
-        $this->assertEquals(20, $options['b']);
-        $this->assertEquals(20, $options['beta']);
+        $this->assertEquals('12', $options['a']);
+        $this->assertFalse($options['a']->getIsDefault());
+        $this->assertEquals('20', $options['b']);
+        $this->assertEquals('20', $options['beta']);
+        $this->assertTrue($options['b']->getIsDefault());
+        $this->assertTrue($options['beta']->getIsDefault());
     }
 
     public function testDoubleHyphenNotInOperands()
@@ -402,9 +410,9 @@ class CommandLineParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('-a 1 -b 2 -c');
 
         $options = $parser->getOptions();
-        $this->assertSame('1', $options['a']);
-        $this->assertSame('2', $options['b']);
-        $this->assertSame(1, $options['c']);
+        $this->assertSame('1', $options['a']->getValue());
+        $this->assertSame('2', $options['b']->getValue());
+        $this->assertSame(1, $options['c']->getValue());
     }
 
     public function testParseInvalidArgument()

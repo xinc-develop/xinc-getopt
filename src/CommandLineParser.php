@@ -179,7 +179,7 @@ class CommandLineParser
                 if ($option->mode() == Getopt::IS_FLAG) {
                     if (is_null($value)) {
                         $value = isset($this->options[$string]) ?
-                            !$this->options[$string] :
+                            !$this->options[$string]->getValue() :
                 ($option->getArgument()->hasDefaultValue() ?
                             !$option->getArgument()->getDefaultValue() : true);
                     }
@@ -194,7 +194,8 @@ class CommandLineParser
                     }
                 // for no-argument options, check if they are duplicate
                 if ($option->mode() == Getopt::NO_ARGUMENT) {
-                    $oldValue = isset($this->options[$string]) ? $this->options[$string] : null;
+                    $oldValue = isset($this->options[$string]) ?
+                        $this->options[$string]->getValue() : null;
                     $value = is_null($oldValue) ? 1 : $oldValue + 1;
                 }
                 // for optional-argument options, set value to 1 if none was given
@@ -226,10 +227,12 @@ class CommandLineParser
                     && !isset($this->options[$option->long()])
             ) {
                 if ($option->short()) {
-                    $this->options[$option->short()] = new Value($value);
+                    $this->options[$option->short()] = new Value(
+                        $option->getArgument()->getDefaultValue(),true);
                 }
                 if ($option->long()) {
-                    $this->options[$option->long()] = new Value($value);
+                    $this->options[$option->long()] = new Value(
+                        $option->getArgument()->getDefaultValue(),true);
                 }
 /*
                 if ($option->short()) {
